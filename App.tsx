@@ -1,118 +1,94 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
-
-import React from 'react';
-import type {PropsWithChildren} from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
-
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
-
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
-
-function Section({children, title}: SectionProps): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-}
+import BottomSheet, { BottomSheetScrollView, BottomSheetTextInput } from '@gorhom/bottom-sheet';
+import React, { useCallback, useRef } from 'react';
+import { Button, StyleSheet, Text } from 'react-native';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 function App(): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
+  const sheetRef = useRef<BottomSheet>(null);
 
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
+  const handleOpenPress = useCallback(() => {
+    sheetRef.current?.expand();
+  }, []);
+  const handleClosePress = useCallback(() => {
+    sheetRef.current?.close();
+  }, []);
 
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+
+    <GestureHandlerRootView style={styles.container}>
+
+      <Button title="Open" onPress={() => handleOpenPress()} />
+
+      <BottomSheet
+        ref={sheetRef}
+        keyboardBehavior="interactive"
+        keyboardBlurBehavior="restore"
+        android_keyboardInputMode="adjustPan"
+        enablePanDownToClose
+        enableOverDrag
+        index={-1}
+      >
+        <BottomSheetScrollView
+          contentContainerStyle={styles.contentContainer}
+          bounces={false}
+          overScrollMode="never"
+          keyboardShouldPersistTaps="handled"
+        >
+
+            <Text>Some extra space 1</Text>
+            <BottomSheetTextInput style={styles.input} />
+            <Text>Some extra space 2</Text>
+            <BottomSheetTextInput style={styles.input} />
+            <Text>Some extra space 3</Text>
+            <BottomSheetTextInput style={styles.input} />
+            <Text>Some extra space 4</Text>
+            <BottomSheetTextInput style={styles.input} />
+            <Text>Some extra space 5</Text>
+            <BottomSheetTextInput style={styles.input} />
+            <Text>Some extra space 6</Text>
+            <BottomSheetTextInput style={styles.input} />
+            <Text>Some extra space 7</Text>
+            <BottomSheetTextInput style={styles.input} />
+            <Text>Some extra space 8</Text>
+            <BottomSheetTextInput style={styles.input} />
+            <Text>Some extra space 9</Text>
+            <BottomSheetTextInput style={styles.input} />
+            <Text>Some extra space 10</Text>
+            <BottomSheetTextInput style={styles.input} />
+            <Text>Some extra space 11</Text>
+            <BottomSheetTextInput style={styles.input} />
+            <Text>Some extra space 12</Text>
+            <BottomSheetTextInput style={styles.input} />
+
+            <Button title="Close" onPress={() => handleClosePress()} />
+
+        </BottomSheetScrollView>
+      </BottomSheet>
+    </GestureHandlerRootView>
+
   );
 }
 
+export default App;
+
+
 const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
+  container: {
+    flex: 1,
   },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
+  contentContainer: {
+    backgroundColor: 'white',
   },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
+  itemContainer: {
+    padding: 6,
+    margin: 6,
+    backgroundColor: '#eee',
   },
-  highlight: {
-    fontWeight: '700',
+  input: {
+    margin: 20,
+    backgroundColor: 'white',
+    borderWidth: 1,
+    borderRadius: 10,
+    borderColor: '#CCC',
   },
 });
-
-export default App;
